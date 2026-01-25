@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Offline Itinerary Editor | Create WhatsApp Travel Plans</title>
-    <meta name="description" content="Free offline itinerary builder. Create, edit, and format travel itineraries for WhatsApp. Works without internet. Perfect for tour organizers and personal trips.">
-    <meta name="keywords" content="itinerary maker, whatsapp itinerary, offline itinerary editor, travel plan builder, tour organizer tool, text to itinerary">
+    <title>Itinerary Editor | Create WhatsApp Travel Plans</title>
+    <meta name="description" content="Free itinerary builder. Create, edit, and format travel itineraries for WhatsApp. Works without internet. Perfect for tour organizers and personal trips.">
+    <meta name="keywords" content="itinerary maker, whatsapp itinerary, itinerary editor, travel plan builder, tour organizer tool, text to itinerary">
     <meta name="author" content="kash-pram">
-    <meta property="og:title" content="Offline Itinerary Editor for WhatsApp">
-    <meta property="og:description" content="Build travel plans offline and copy them in perfect WhatsApp format. Free and secure.">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1877f2">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <meta property="og:title" content="Itinerary Editor for WhatsApp">
+    <meta property="og:description" content="Build travel plans and copy them in perfect WhatsApp format. Free and secure.">
     <meta property="og:image" content="https://kash-pram.github.io/itinerary-copier-editor/preview-image.png"> <meta property="og:url" content="https://kash-pram.github.io/itinerary-copier-editor/">
     <meta property="og:type" content="website">
 
@@ -19,11 +24,20 @@
     <link rel="canonical" href="https://kash-pram.github.io/itinerary-copier-editor/" />
 </head>
 <body>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js')
+            .then(() => console.log('Service Worker Registered'))
+            .catch((err) => console.log('Service Worker Failed', err));
+        });
+      }
+    </script>
     <div class="toast" id="toast"></div>
     
     <div class="container">
         <div class="header">
-            <h1>Offline Itinerary Editor / Copier</h1>
+            <h1>Itinerary Editor / Copier</h1>
 
             <div class="header-actions">
                 <button class="scroll-to-top-btn" id="scrollToTopBtn" onclick="scrollToTop()" title="Scroll to top">
@@ -131,4 +145,5 @@
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "445d137d235d45d987ebde3d25faa41d"}'></script>
     <!-- End Cloudflare Web Analytics -->
 </body>
+
 </html>
