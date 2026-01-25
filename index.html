@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline Itinerary Editor / Copier</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%231877f2'/%3E%3Cpath d='M30 40 L50 25 L70 40 L70 75 L30 75 Z' fill='white'/%3E%3Crect x='42' y='55' width='16' height='20' fill='%231877f2'/%3E%3Crect x='35' y='45' width='10' height='10' fill='%231877f2'/%3E%3Crect x='55' y='45' width='10' height='10' fill='%231877f2'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="toast" id="toast"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Offline Itinerary Editor / Copier</h1>
+            <div class="header-actions">
+                <button class="scroll-to-top-btn" id="scrollToTopBtn" onclick="scrollToTop()" title="Scroll to top">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="19" x2="12" y2="5"></line>
+                        <polyline points="5 12 12 5 19 12"></polyline>
+                    </svg>
+                </button>
+                <div class="menu-container">
+                    <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleMenu()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <button class="menu-item" onclick="toggleTheme()">
+                            <span class="theme-icon" id="themeIcon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                                </svg>
+                            </span>
+                            <span>Toggle Theme</span>
+                        </button>
+                        <button class="menu-item" onclick="startBlank()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            </svg>
+                            <span>Start Blank</span>
+                        </button>
+                        <button class="menu-item" onclick="resetToOriginal()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="1 4 1 10 7 10"></polyline>
+                                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                            </svg>
+                            <span>Reset to Original</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="usage-note">
+            <h3>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle; margin-right: 8px;"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Features
+            </h3>
+            <!-- <h3>📖 Quick Guide / விரைவு வழிகாட்டி</h3> -->
+            <ul>
+                <!-- <li><strong>Menu (☰):</strong> Toggle theme & reset to default data</li> -->
+                <!-- <li><strong>Smart Copy:</strong> Only copies non-empty content to clipboard</li> -->
+                <li><strong>Menu (☰) Theme Toggle:</strong> Switch between light and dark modes.</li>
+                <li><strong>Menu (☰) Start Blank:</strong> Completely clear all data and start fresh.</li>
+                <li><strong>Menu (☰) Reset to Original:</strong> Reset all details to default app data.</li>
+                <li><strong>Smart Copy:</strong> Only copies non-empty content to clipboard.</li>
+                <li><strong>WhatsApp Format:</strong> Copies text formatted for WhatsApp with proper markdown.</li>
+                    <!-- <button class="btn btn-success" onclick="copyFormatted()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy Formatted Text
+                    </button>
+                     to copy WhatsApp-ready format. -->
+                <li><strong>Auto-Save:</strong> Your changes are automatically saved locally in your browser.</li>
+                <li><strong>Scroll Top:</strong> Click (↑) in the header, to return to top of page.</li>
+                
+                <!-- <li><strong>Auto-Save:</strong> Your changes are automatically saved / உங்கள் மாற்றங்கள் தானாகவே சேமிக்கப்படும்</li> -->
+                <!-- <li><strong>Add Content:</strong> Use "+ Add Day", "+ Add Activity", "+ Add Section" buttons</li> -->
+                <!-- <li><strong>Add Content:</strong> Use "+ Add Day", "+ Add Activity", "+ Add Section" buttons / புதிய உள்ளடக்கத்தைச் சேர்க்க பொத்தான்களைப் பயன்படுத்தவும்</li> -->
+                <!-- <li><strong>Delete Items:</strong> Click X button (confirmation required)</li> -->
+                <!-- <li><strong>Delete Items:</strong> Click × button (confirmation required) / × பொத்தானைக் கிளிக் செய்து நீக்கவும்</li> -->
+                
+                <!-- <li><strong>Copy Text:</strong> Click "📋 Copy Formatted Text" to copy WhatsApp-ready format / வாட்ஸ்அப் வடிவத்தில் நகலெடுக்க கிளிக் செய்யவும்</li> -->
+                
+                <!-- <li><strong>Menu (☰):</strong> Toggle theme & reset to original data / தீமை மாற்ற மற்றும் அசல் தரவுக்கு மீட்டமைக்க</li> -->
+                <!-- <li><strong>Scroll Top (↑):</strong> Click to return to top of page / மேலே செல்ல கிளிக் செய்யவும்</li> -->
+            </ul>
+        </div>
+        
+        <div class="content" id="content">
+            <!-- Content will be generated by JavaScript -->
+        </div>
+
+        <div class="footer-dev">
+            Developed by <a href="https://github.com/kash-pram" target="_blank">kash-pram</a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "445d137d235d45d987ebde3d25faa41d"}'></script>
+    <!-- End Cloudflare Web Analytics -->
+</body>
+</html>
