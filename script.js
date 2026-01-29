@@ -106,7 +106,7 @@ const originalData = {
 };
 
 let data = JSON.parse(JSON.stringify(originalData));
-let collapsedSections = {};
+let collapsedSections = { notes: true };
 let autoSaveTimeout = null;
 
 // Theme management
@@ -153,7 +153,7 @@ function resetToOriginal() {
         localStorage.removeItem(STORAGE_KEY);
         // We re-clone originalData, which already has the calculated future dates
         data = JSON.parse(JSON.stringify(originalData));
-        collapsedSections = {};
+        collapsedSections = { notes: true };
         render();
         showToast('Reset to original data!', 'success');
         toggleMenu();
@@ -172,7 +172,7 @@ function startBlank() {
             sections: [],
             footer: ''
         };
-        collapsedSections = {};
+        collapsedSections = { notes: true };
         render();
         showToast('Started with blank data!', 'success');
         toggleMenu();
@@ -188,9 +188,18 @@ document.addEventListener('click', (e) => {
     }
 });
 
+// function toggleSection(id) {
+//     collapsedSections[id] = !collapsedSections[id];
+//     render();
+// }
+
 function toggleSection(id) {
     collapsedSections[id] = !collapsedSections[id];
-    render();
+    if (id === 'notes') {
+        renderFeatures(); // Specifically re-render the features
+    } else {
+        render(); // Re-render the main content
+    }
 }
 
 function saveData() {
@@ -401,6 +410,40 @@ function setupAutoSaveListeners() {
             autoSave();
         }
     }, true);
+}
+
+function renderFeatures() {
+    const container = document.getElementById('usage-note');
+    if (!container) return;
+
+    const isCollapsed = collapsedSections['notes'];
+    
+    container.innerHTML = `
+        <div class="intro-text" style="margin: 20px auto 20px auto; color: var(--text-color);">
+            <p>
+                A simple, secure, and <strong>offline-first itinerary builder</strong> designed for travel agents and tour organizers. 
+                Easily draft your trip details and copy them in a clean <strong>WhatsApp-ready format</strong> to share with clients or family.
+            </p>
+        </div>
+        <div class="${isCollapsed ? 'collapsed' : ''}">
+            <div>
+                <button class="collapse-btn-notes" onclick="toggleSection('notes')">
+                    <span class="collapse-icon ${isCollapsed ? 'collapsed' : ''}">▼</span>
+                    
+                </button>
+                Features
+            </div>
+            <ul style="display: ${isCollapsed ? 'none' : 'block'}">
+                <li><strong>Menu (☰) Theme Toggle:</strong> Switch between light and dark modes.</li>
+                <li><strong>Menu (☰) Start Blank:</strong> Completely clear all data and start fresh.</li>
+                <li><strong>Menu (☰) Reset to Original:</strong> Reset all details to default app data.</li>
+                <li><strong>Smart Copy:</strong> Only copies non-empty content to clipboard.</li>
+                <li><strong>WhatsApp Format:</strong> Copies text formatted for WhatsApp with proper markdown.</li>
+                <li><strong>Auto-Save:</strong> Your changes are automatically saved locally in your browser.</li>
+                <li><strong>Scroll Top:</strong> Click (↑) in the header, to return to top of page.</li>
+            </ul>
+        </div>
+    `;
 }
 
 function render() {
@@ -826,4 +869,5 @@ function copyFormatted() {
 // Initialize
 initTheme();
 loadData();
+renderFeatures();
 render();

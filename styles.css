@@ -296,6 +296,19 @@ body {
     color: var(--text-secondary);
     transition: all 0.2s;
 }
+.collapse-btn-notes {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px 8px;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+}
+.collapse-btn-notes:hover {
+    background: var(--input-bg);
+    border-radius: 4px;
+}
 
 .collapse-btn:hover {
     background: var(--input-bg);
