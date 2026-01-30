@@ -1,4 +1,4 @@
-# itinerary-copier-editor
+# itinerary-editor-copier
 
 This project is a client-side, browser-based content editor and formatter designed for creating structured, shareable text.
 
